@@ -1,11 +1,4 @@
-import { useForm, FormProvider } from "react-hook-form";
-import {
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+
 import { Input } from "@/components/ui/input";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -13,7 +6,6 @@ import { useState } from "react";
 import { UserAuth } from "../context/AuthContext";
 
 function Login() {
-  const formMethods = useForm();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signInUser } = UserAuth();
@@ -58,53 +50,25 @@ function Login() {
             </Link>
           </p>
         </div>
-        <FormProvider {...formMethods}>
           <form
             onSubmit={(e) => onSubmit(e , { email, password })}
             className="flex flex-col gap-4 text-white w-full"
           >
-            <FormField
-              control={formMethods.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input
+            <Input
                       placeholder="username"
                       type="email"
-                      {...field}
                       onChange={(e) => setEmail(e.target.value)}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
             />
-            <FormField
-              control={formMethods.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
+            <Input
                       placeholder="password"
                       type="password"
                       minLength={8}
-                      {...field}
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
             <Button type="submit">
-              Submit
+              Login
             </Button>
           </form>
-        </FormProvider>
       </div>
     </div>
   );

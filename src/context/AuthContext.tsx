@@ -7,10 +7,12 @@ const AuthContext = createContext<{
     signedUpNewUser: (email: string, password: string) => Promise<{success: boolean; data?: any; error?: any}>;
     signOut: () => Promise<void>;
     signInUser : (email : string , password : string) => Promise<{success : boolean ; data? : any ; error? : any}>;
-    }>({session: null, signedUpNewUser: async () => ({success: false}), signOut: async () => {} , signInUser : async () => ({success : true})});
+    isLoading : boolean;
+    }>({session: null, signedUpNewUser: async () => ({success: false}), signOut: async () => {} , signInUser : async () => ({success : true}) , isLoading : true});
 
 
 export const AuthContextProvider = ({children}: {children: React.ReactNode}) => {
+    const [isLoading , setIsLoading] = useState(true);      
     const [session , setSession] = useState<Session | null>(null);
 
     const signedUpNewUser = async (email: string, password: string) => {
@@ -48,6 +50,7 @@ export const AuthContextProvider = ({children}: {children: React.ReactNode}) => 
         const getSession = async () => {
             const {data : {session}} = await supabase.auth.getSession();
             setSession(session)
+            setIsLoading(false);
         }
         getSession();
 
@@ -68,7 +71,7 @@ export const AuthContextProvider = ({children}: {children: React.ReactNode}) => 
     }   
 
     return(
-        <AuthContext.Provider value={{session , signedUpNewUser , signOut, signInUser}}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{session , signedUpNewUser , signOut, signInUser, isLoading}}>{children}</AuthContext.Provider>
     )
 }
 
