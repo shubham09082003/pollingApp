@@ -1,20 +1,38 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button } from './ui/button'
+import { UserAuth } from '@/context/AuthContext'
 
 function NavBar() {
+  const {session, signOut } = UserAuth();  
+  const navigate = useNavigate();
+
+  function handleSignOut() {
+    signOut();
+    navigate('/');
+  }
+
   return (
-    <div className='w-full shadow-lg shadow-white/10'>
-        <div className='flex justify-between items-center w-7xl mx-auto p-4'>
-            <div>
-                <p className='text-2xl font-bold italic'>Polling App</p>
-            </div>
-            <div className='flex gap-4'>
-                <Button variant="outline" className="bg-transparent text-white hover:bg-transparent hover:text-white cursor-pointer"><Link to="/login">Login</Link></Button>
-                <Button variant="outline" className="bg-transparent text-white hover:bg-transparent hover:text-white cursor-pointer"><Link to="/signup">Signup</Link></Button>
-            </div>
+    <nav className="bg-gray-800 p-4 shadow-md">
+      <div className="container mx-auto flex justify-between items-center">
+        <div className="flex items-center">
+          <span className="text-white text-lg font-bold"><Link to="/dashboard">Poll Maker</Link></span>
         </div>
-    </div>
+        <div className="flex space-x-4">
+          {session ? (
+            <Button className="bg-blue-600 text-white hover:bg-blue-700 transition duration-300 py-2 px-4 rounded" onClick={handleSignOut}>Sign Out</Button>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 transition duration-300 py-2 px-4 rounded">Login</Button>
+              </Link>
+              <Link to="/signup">
+                <Button className="bg-blue-600 text-white hover:bg-blue-700 transition duration-300 py-2 px-4 rounded">Signup</Button>
+              </Link>
+            </>
+          )}
+        </div>
+      </div>
+    </nav>
   )
 }
 

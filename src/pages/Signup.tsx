@@ -11,16 +11,12 @@ interface FormData {
 }
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const { session, signedUpNewUser } = UserAuth();
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const { signedUpNewUser } = UserAuth();
 
-  console.log(session);
-  const onSubmit = async (
-    e: React.FormEvent<HTMLFormElement>,
-    data: FormData
-  ) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>, data: FormData) => {
     e.preventDefault();
     try {
       if (data.password !== data.confirmPassword) {
@@ -41,41 +37,45 @@ function Signup() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen">
-      <div className="flex flex-col items-center justify-center p-10 shadow-md rounded-md shadow-gray-600 w-full max-w-sm">
-        <div className="flex flex-col items-center justify-center">
-          <h1 className="text-2xl font-bold mb-4 text-white">
-            Create an account
-          </h1>
-          <p className="text-sm text-muted-foreground mb-4">
-            Already have an account?{" "}
-            <Link to="/login" className="text-blue-500">
-              Login
-            </Link>
-          </p>
-        </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900">
+      <div className="flex flex-col items-center justify-center p-10 shadow-lg rounded-lg bg-white max-w-md w-full">
+        <h1 className="text-3xl font-bold mb-4 text-gray-800">Create an account</h1>
+        <p className="text-sm text-gray-600 mb-4">
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-500 hover:underline">
+            Login
+          </Link>
+        </p>
         <form
           onSubmit={(e) => onSubmit(e, { email, password, confirmPassword })}
-          className="flex flex-col gap-4 text-white w-full"
+          className="flex flex-col gap-4 w-full"
         >
           <Input
-            placeholder="email"
+            placeholder="Email"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-300 p-2 rounded"
           />
           <Input
-            placeholder="password"
+            placeholder="Password"
             type="password"
             minLength={8}
             onChange={(e) => setPassword(e.target.value)}
+            className="border border-gray-300 p-2 rounded"
           />
           <Input
-            placeholder="confirm password"
+            placeholder="Confirm Password"
             type="password"
             minLength={8}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className="border border-gray-300 p-2 rounded"
           />
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
+          >
+            Sign Up
+          </Button>
         </form>
       </div>
     </div>
